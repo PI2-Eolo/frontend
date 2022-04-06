@@ -3,11 +3,11 @@ import renderer from 'react-test-renderer';
 import Header from '../../src/components/Header';
 
 describe('Header component test', () => {
-    it('test 1', () => {
+    it('component snapshot', () => {
         const component = renderer.create(
             <Header />,
         );
         let tree = component.toJSON();
-        console.log(tree)
+        expect(tree).toMatchSnapshot();
     })
 })
