@@ -1,9 +1,28 @@
 .container {
-    margin: 0;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    height: 4em;
+    align-items: center;
+    padding: 1em;
+    border-bottom: 2px solid #EEECFA;
 }
 
-.title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
+h1 {
+    display: flex;
+    font-family: 'Poppins Thin';
+    font-weight: 100;
+    font-size: 2em;
+}
+
+img {
+    display: flex;
+    height: 3em;
+    margin-right: 1em;
+}
+
+@font-face {
+    font-family: 'Poppins Thin';
+    src: local('Poppins Thin'), url(../../assets/fonts/Poppins-Thin.ttf) format('ttf');
 }
