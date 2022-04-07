@@ -29,11 +29,9 @@ function App() {
           },
         ]}
       />
-      <MetricInfo 
-        label="Consumption"
-        value="13.3"
-        unit="kWh"
-      />
+      <MetricInfo label="Consumption" value={13.3} unit="kW/h" />
+
+      <MetricInfo label="Energy production" value={25.1} unit="kw/h" />
     </div>
   );
 }

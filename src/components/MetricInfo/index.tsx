@@ -3,16 +3,24 @@ import "./index.css";
 
 interface MetricInforProps {
   label: string;
-  value: string;
+  value: number;
   unit: string;
+  decimalPlaces?: number;
 }
 
-const MetricInfo = ({ label, value, unit }: MetricInforProps) => {
+const MetricInfo = ({
+  label,
+  value,
+  unit,
+  decimalPlaces = 2,
+}: MetricInforProps) => {
+  const stringValue = value.toFixed(decimalPlaces);
+
   return (
     <div className="metric-info-container">
       <span className="label">{label}</span>
       <div className="value-container">
-        <span className="value">{value}</span>
+        <span className="value">{stringValue}</span>
         <span className="unit">{unit}</span>
       </div>
     </div>
