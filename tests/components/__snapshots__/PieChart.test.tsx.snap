@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PieChart component test component snapshot 1`] = `
+<div
+  className="pie-chart-container"
+>
+  <h2
+    className="pie-chart-label"
+  />
+  <div
+    className="pie-chart-content"
+  >
+    <svg
+      height="100%"
+      viewBox="0 0 80 80"
+      width="100%"
+    />
+    <div
+      className="pie-chart-label-list"
+    />
+  </div>
+</div>
+`;
+
+exports[`PieChart component test component snapshot 2`] = `
+<div
+  className="pie-chart-container"
+>
+  <h2
+    className="pie-chart-label"
+  >
+    Consumption details
+  </h2>
+  <div
+    className="pie-chart-content"
+  >
+    <svg
+      height="100%"
+      viewBox="0 0 80 80"
+      width="100%"
+    >
+      <path
+        d="M 62 30 A 27 27 0 1 1 8.227584159527407 26.50175042845536"
+        fill="none"
+        stroke="#7459D9"
+        strokeLinecap="round"
+        strokeWidth={6}
+        style={Object {}}
+      >
+        <title>
+          Kitchen
+        </title>
+      </path>
+      <path
+        d="M 10.04524572117446 19.691739289121646 A 27 27 0 0 1 50.529425335116976 7.912968765335911"
+        fill="none"
+        stroke="#B9ABEB"
+        strokeLinecap="round"
+        strokeWidth={6}
+        style={Object {}}
+      >
+        <title>
+          Living room
+        </title>
+      </path>
+      <path
+        d="M 55.716817331922556 12.684877140610496 A 27 27 0 0 1 61.079997309804845 23.011885782231943"
+        fill="none"
+        stroke="#E3DEF7"
+        strokeLinecap="round"
+        strokeWidth={6}
+        style={Object {}}
+      >
+        <title>
+          Other
+        </title>
+      </path>
+    </svg>
+    <div
+      className="pie-chart-label-list"
+    >
+      <div
+        className="pie-chart-item-label-container"
+      >
+        <span
+          className="pie-char-label-color-bar"
+          style={
+            Object {
+              "backgroundColor": "#7459D9",
+            }
+          }
+        />
+        <div
+          className="pie-chart-value-container"
+        >
+          <span
+            className="pie-chart-item-label"
+          >
+            Kitchen
+          </span>
+          <span
+            className="pie-chart-item-value"
+          >
+            241
+             
+            kW/h
+          </span>
+        </div>
+      </div>
+      <div
+        className="pie-chart-item-label-container"
+      >
+        <span
+          className="pie-char-label-color-bar"
+          style={
+            Object {
+              "backgroundColor": "#B9ABEB",
+            }
+          }
+        />
+        <div
+          className="pie-chart-value-container"
+        >
+          <span
+            className="pie-chart-item-label"
+          >
+            Living room
+          </span>
+          <span
+            className="pie-chart-item-value"
+          >
+            132
+             
+            kW/h
+          </span>
+        </div>
+      </div>
+      <div
+        className="pie-chart-item-label-container"
+      >
+        <span
+          className="pie-char-label-color-bar"
+          style={
+            Object {
+              "backgroundColor": "#E3DEF7",
+            }
+          }
+        />
+        <div
+          className="pie-chart-value-container"
+        >
+          <span
+            className="pie-chart-item-label"
+          >
+            Other
+          </span>
+          <span
+            className="pie-chart-item-value"
+          >
+            32
+             
+            kW/h
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

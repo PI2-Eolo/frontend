@@ -32,7 +32,7 @@ const PieChart = ({ label = "", data = [], unit = "" }: PieChartProps) => {
         />
         <div className="pie-chart-label-list">
           {data.map((item) => (
-            <div className="pie-chart-item-label-container">
+            <div className="pie-chart-item-label-container" key={item.label}>
               <span
                 className="pie-char-label-color-bar"
                 style={{ backgroundColor: item.color }}
