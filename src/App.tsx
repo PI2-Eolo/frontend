@@ -4,6 +4,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Selector from "./components/Selector";
 import MetricInfo from "./components/MetricInfo";
+import PieChart from "./components/PieChart";
 
 function App() {
   return (
@@ -32,6 +33,15 @@ function App() {
       <MetricInfo label="Consumption" value={13.3} unit="kW/h" />
 
       <MetricInfo label="Energy production" value={25.1} unit="kw/h" />
+
+      <PieChart
+        data={[
+          { label: "Kitchen", value: 241, color: "#7459D9" },
+          { label: "Living room", value: 132, color: "#B9ABEB" },
+          { label: "Other", value: 32, color: "#E3DEF7" },
+        ]}
+        unit="kW/h"
+      />
     </div>
   );
 }
