@@ -4,7 +4,7 @@ import logo from '../../assets/images/header_icon.png';
 
 const Header = () => {
     return (
-        <div className="container">
+        <div className="header-container">
             <img src={logo} alt="Logo" />
             <h1> Dashboard </h1>
         </div>
