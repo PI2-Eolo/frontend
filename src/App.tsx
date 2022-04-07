@@ -35,6 +35,7 @@ function App() {
       <MetricInfo label="Energy production" value={25.1} unit="kw/h" />
 
       <PieChart
+        label="Consumption details"
         data={[
           { label: "Kitchen", value: 241, color: "#7459D9" },
           { label: "Living room", value: 132, color: "#B9ABEB" },
