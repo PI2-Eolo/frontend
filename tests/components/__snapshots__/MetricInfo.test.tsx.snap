@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component test component snapshot 1`] = `
+<div
+  className="metric-info-container"
+>
+  <span
+    className="label"
+  >
+    Consumption
+  </span>
+  <div
+    className="value-container"
+  >
+    <span
+      className="value"
+    >
+      13.30
+    </span>
+    <span
+      className="unit"
+    >
+      kW/h
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Header component test component snapshot 2`] = `
+<div
+  className="metric-info-container"
+>
+  <span
+    className="label"
+  >
+    Energy production
+  </span>
+  <div
+    className="value-container"
+  >
+    <span
+      className="value"
+    >
+      25.100
+    </span>
+    <span
+      className="unit"
+    >
+      kw/h
+    </span>
+  </div>
+</div>
+`;
