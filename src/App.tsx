@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Header from "./components/Header";
 import Selector from "./components/Selector";
+import MetricInfo from "./components/MetricInfo";
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
             value: "monthly",
           },
         ]}
+      />
+      <MetricInfo 
+        label="Consumption"
+        value="13.3"
+        unit="kWh"
       />
     </div>
   );

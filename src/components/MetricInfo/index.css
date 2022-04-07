@@ -1,0 +1,33 @@
+.metric-info-container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.value-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.label {
+    font-family: "Poppins-Thin";
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.value {
+    font-family: "Poppins-Thin";
+    font-weight: 100;
+    font-size: 3em;
+    margin-right: 0.2em;
+    margin-left: 0.5em;
+}
+
+.unit {
+    font-family: "Poppins-Thin";
+    font-weight: 100;
+    font-size: 0.9em;
+    margin-bottom: 0.6em;
+}
