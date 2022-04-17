@@ -2,7 +2,7 @@
 
 exports[`Header component test component snapshot 1`] = `
 <div
-  className="container"
+  className="header-container"
 >
   <img
     alt="Logo"

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selector component test match with snapshot 1`] = `
+<div
+  className="selector-container"
+>
+  <button
+    className="selected-button"
+    onClick={[Function]}
+  >
+    Realtime
+  </button>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Daily
+  </button>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Weekly
+  </button>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Monthly
+  </button>
+</div>
+`;
+
+exports[`Selector component test match with snapshot 2`] = `
+<div
+  className="selector-container"
+>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Realtime
+  </button>
+  <button
+    className="selected-button"
+    onClick={[Function]}
+  >
+    Daily
+  </button>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Weekly
+  </button>
+  <button
+    className="unselected-button"
+    onClick={[Function]}
+  >
+    Monthly
+  </button>
+</div>
+`;
