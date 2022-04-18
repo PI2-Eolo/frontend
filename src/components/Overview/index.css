@@ -1,0 +1,17 @@
+.Overview {
+    display: flex;
+    flex-direction: column;
+}
+
+.Overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.Overview-infos {
+    display: flex;
+    flex-direction: row;
+}
