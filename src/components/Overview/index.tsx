@@ -1,28 +1,15 @@
 import { useEffect, useState } from "react";
 import MetricInfo from "../MetricInfo";
 import Selector from "../Selector";
+import MetricInfoModel from "../../models/MetricInfoModel";
 import "./index.css";
 
-interface MetricInfo {
-  consumption: number;
-  energyProduction: number;
-  humidity: number;
-  temperature: number;
-}
-
 interface OverviewProps {
-  realTimeData: MetricInfo;
-  dailyData: MetricInfo;
-  weeklyData: MetricInfo;
-  monthlyData: MetricInfo;
+  realTimeData: MetricInfoModel;
+  dailyData: MetricInfoModel;
+  weeklyData: MetricInfoModel;
+  monthlyData: MetricInfoModel;
 }
-
-const emptyMetriInfo = {
-  consumption: 0,
-  energyProduction: 0,
-  humidity: 0,
-  temperature: 0,
-};
 
 const Overview = ({
   realTimeData,
@@ -30,8 +17,8 @@ const Overview = ({
   weeklyData,
   monthlyData,
 }: OverviewProps) => {
-  const [metricInfo, setMetricInfo] = useState(emptyMetriInfo);
-  const [period, setPeriod] = useState("realTime");
+  const [metricInfo, setMetricInfo] = useState(new MetricInfoModel());
+  const [period, setPeriod] = useState("realtime");
 
   useEffect(() => {
     onChangeSelector(period);
@@ -41,7 +28,8 @@ const Overview = ({
     switch (period) {
       case "realtime":
         setMetricInfo(realTimeData);
-        setPeriod("realTime");
+
+        setPeriod("realtime");
         break;
       case "daily":
         setMetricInfo(dailyData);
@@ -94,17 +82,21 @@ const Overview = ({
           value={metricInfo.consumption}
           unit="kW/h"
         />
+        <div className="Overview-pad2" />
         <MetricInfo
           label="Energy production"
           value={metricInfo.energyProduction}
           unit="kw/h"
         />
+        <div className="Overview-pad2" />
         <MetricInfo label="Humidity" value={metricInfo.humidity} unit="kw/h" />
+        <div className="Overview-pad2" />
         <MetricInfo
           label="Temperature"
           value={metricInfo.temperature}
           unit="kw/h"
         />
+        <div className="Overview-pad12" />
       </div>
     </div>
   );

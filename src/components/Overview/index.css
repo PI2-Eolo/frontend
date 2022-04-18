@@ -7,13 +7,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 1em;
-    margin-right: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .Overview-infos {
     display: flex;
     flex-direction: row;
-    margin-left: 1em;
-    margin-right: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.Overview-pad2 {
+    padding-left: 2em;
+}
+
+.Overview-pad12 {
+    padding-left: 12em;
 }
