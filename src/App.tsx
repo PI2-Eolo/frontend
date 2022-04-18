@@ -1,19 +1,32 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Header from "./components/Header";
-import Selector from "./components/Selector";
-import MetricInfo from "./components/MetricInfo";
 import PieChart from "./components/PieChart";
 import Overview from "./components/Overview";
+
+const emptyMetriInfo = {
+  consumption: 0,
+  energyProduction: 0,
+  humidity: 0,
+  temperature: 0,
+};
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Overview />
+      <div className="App-upperContainer ">
+        <div>
+          <Overview
+            realTimeData={emptyMetriInfo}
+            dailyData={emptyMetriInfo}
+            weeklyData={emptyMetriInfo}
+            monthlyData={emptyMetriInfo}
+          />
+          {
+            // Earnings goes here
+          }
+        </div>
 
-      <div style={{ marginRight: "10%" }}>
         <PieChart
           label="Consumption details"
           data={[
