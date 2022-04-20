@@ -19,7 +19,7 @@ h1 {
 img {
     display: flex;
     height: 3em;
-    margin-right: 1em;
+    padding-right: 1em;
 }
 
 @font-face {
