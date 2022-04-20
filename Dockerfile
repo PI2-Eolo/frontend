@@ -3,9 +3,10 @@ FROM node:alpine
 WORKDIR /frontend
 
 COPY package.json ./
-COPY package-lock.json ./
+COPY node_modules ./
+COPY yarn.lock ./
 COPY ./ ./
 
-RUN npm install
+RUN yarn install
 
-CMD ["npm", "run", "start"]
+CMD ["yarn", "run", "start"]

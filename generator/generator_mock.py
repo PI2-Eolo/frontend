@@ -9,18 +9,10 @@ MQTT_TOPIC = [('sensor/consumption', 0), ('sensor/en_prod', 0), ('sensor/humidit
 def on_connect(client, userdata, flags, rc):
   print("Connected with result code "+str(rc))
 
-def on_message(client, userdata, msg):
-    print("message received " ,str(msg.payload.decode("utf-8")))
-    print("message topic =",msg.topic)
-    print("message qos = ",msg.qos)
-    print("message retain flag =",msg.retain)
-
 def send_msg(topic, value):
-    print("Publishing message to topic", topic, " -> ", value)
     client.publish(topic, value);
 
 client = mqtt.Client("EOLO")
-client.on_message=on_message
 print("connecting to broker")
 client.connect(broker)
 client.loop_start()
