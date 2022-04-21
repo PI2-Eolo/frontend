@@ -5,6 +5,8 @@ import Overview from "./components/Overview";
 import { useEffect, useState } from "react";
 import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
+import {Buffer} from 'buffer';
+Buffer.from('anything','base64');
 
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),

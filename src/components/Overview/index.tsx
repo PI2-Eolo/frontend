@@ -3,6 +3,7 @@ import MetricInfo from "../MetricInfo";
 import Selector from "../Selector";
 import MetricInfoModel from "../../models/MetricInfoModel";
 import mqttService from "../../services/mqttService";
+import mqtt from "mqtt";
 import "./index.css";
 
 interface OverviewProps {
@@ -20,35 +21,29 @@ const Overview = ({
 }: OverviewProps) => {
   const [metricInfo, setMetricInfo] = useState(new MetricInfoModel());
   const [period, setPeriod] = useState("realtime");
-  const [client, setClient] = useState(null);
+  const [mqttClient, setMqttClient] = useState<mqtt.MqttClient | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    setMqttClient(mqttService.getClient());
+    mqttService.subscribe(mqttClient);
+    mqttService.onMessage(mqttClient, handleMessage);
+    return () => {
+      if (mqttClient) {
+        mqttService.unsubscribe(mqttClient);
+        mqttClient.end();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     onChangeSelector(period);
-    // if (period !== 'realtime') {
-    //   mqttService.unsubscribe(client);
-    // }
-    // else {
-    const a = mqttService.getClient();
-    storeMqttClient(a);
-    mqttService.subscribe(client)
-    // }
   }, [realTimeData, dailyData, weeklyData, monthlyData]);
 
-  useEffect(() => {
-    const client = mqttService.getClient();
-    storeMqttClient(client);
-    const callBack = (mqttMessage: string) => handleMessage(mqttMessage);
-    mqttService.onMessage(client, callBack);
-    return () => mqttService.closeConnection(client);
-  })
-
   const handleMessage = (msg: string) => {
-    console.log(msg)
-  }
-
-  const storeMqttClient = (client: any) => {
-    setClient(client);
-  }
+    console.log(msg);
+  };
 
   const onChangeSelector = (period: string) => {
     switch (period) {

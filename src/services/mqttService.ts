@@ -4,7 +4,7 @@ const topics = ['sensor/consumption',
                 'sensor/en_prod',
                 'sensor/humidity',
                 'sensor/temperature'];
-const websocketUrl = 'ws://mqtt:9001';
+const websocketUrl = 'mqtt://localhost:1883';
 const apiEndpoint = ''
 
 const getClient = () => {
