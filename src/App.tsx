@@ -24,7 +24,7 @@ function App() {
   }, []);
 
   return (
-    <Connector brokerUrl="mqtt">
+    <Connector brokerUrl="mqtt://mqtt:9001">
       <div className="App">
         <Header />
         <div className="App-upperContainer ">
