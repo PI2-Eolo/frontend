@@ -5,6 +5,7 @@ import Overview from "./components/Overview";
 import { useEffect, useState } from "react";
 import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
+import mqttService from "./services/mqttService";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlugCircleMinus, faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +24,11 @@ const emptyMetrics: Metrics = {
 };
 
 function App() {
+  const [consumption, setConsumption] = useState(0);
+  const [energyProduction, setEnergyProduction] = useState(0);
+  const [humidity, setHumidity] = useState(0);
+  const [temperature, setTemperature] = useState(0);
+
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
   const [colorWindSpeedIndicator, setColorWindSpeedIndicator] = useState("");
   const [rotorBlocked, setRotorBlocked] = useState(false); 
@@ -47,6 +53,30 @@ function App() {
       }
     }
   }, [metrics.realTime.windSpeed]);
+  const onMessage = (topic: string, message: any) => {
+    const value = +message.toString();
+    switch (topic) {
+      case "sensor/consumption":
+        setConsumption(value);
+        break;
+      case "sensor/en_prod":
+        setEnergyProduction(value);
+        break;
+      case "sensor/humidity":
+        setHumidity(value);
+        break;
+      case "sensor/temperature":
+        setTemperature(value);
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const client = mqttService.getClient(onMessage);
+    return () => {
+      client.end();
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -54,7 +84,12 @@ function App() {
       <div className="App-upperContainer ">
         <div>
           <Overview
-            realTimeData={metrics.realTime}
+            realTimeData={{
+              consumption,
+              energyProduction,
+              humidity,
+              temperature,
+            }}
             dailyData={metrics.daily}
             weeklyData={metrics.weekly}
             monthlyData={metrics.monthly}

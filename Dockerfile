@@ -1,9 +1,12 @@
-FROM node:latest
+FROM node:alpine
 
-WORKDIR /code
+WORKDIR /frontend
 
-COPY ./package.json ./yarn.lock /code/
+COPY package.json ./
+COPY node_modules ./
+COPY yarn.lock ./
+COPY ./ ./
 
-RUN yarn
+RUN yarn install
 
-COPY . /code/
+CMD ["yarn", "run", "start"]
