@@ -24,10 +24,9 @@ const emptyMetrics: Metrics = {
 };
 
 function App() {
-  const [consumption, setConsumption] = useState(0);
+  const [windSpeed, setWindSpeed] = useState(0);
   const [energyProduction, setEnergyProduction] = useState(0);
-  const [humidity, setHumidity] = useState(0);
-  const [temperature, setTemperature] = useState(0);
+  const [rotorSpeed, setRotorSpeed] = useState(0);
 
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
   const [colorWindSpeedIndicator, setColorWindSpeedIndicator] = useState("");
@@ -38,35 +37,33 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(metrics)
-    if (metrics) {
-      if (metrics.realTime.windSpeed === 0){
+    console.log(windSpeed)
+    if (windSpeed) {
+      if (windSpeed === 0){
         setColorWindSpeedIndicator("#d6d6d6");
-      } else if (metrics.realTime.windSpeed > 0  && metrics.realTime.windSpeed < 4){
+      } else if (windSpeed > 0  && windSpeed < 4){
         setColorWindSpeedIndicator("#8c9eff");
-      } else if (metrics.realTime.windSpeed > 4  && metrics.realTime.windSpeed < 10){
+      } else if (windSpeed > 4  && windSpeed < 10){
         setColorWindSpeedIndicator("#64dd17");
-      } else if (metrics.realTime.windSpeed > 10  && metrics.realTime.windSpeed < 20){
+      } else if (windSpeed > 10  && windSpeed < 20){
         setColorWindSpeedIndicator("#ffff00");
       } else {
         setColorWindSpeedIndicator("#dd2c00");
       }
     }
-  }, [metrics.realTime.windSpeed]);
+  }, [windSpeed]);
+
   const onMessage = (topic: string, message: any) => {
     const value = +message.toString();
     switch (topic) {
       case "sensor/consumption":
-        setConsumption(value);
-        break;
-      case "sensor/en_prod":
-        setEnergyProduction(value);
+        setWindSpeed(value);
         break;
       case "sensor/humidity":
-        setHumidity(value);
-        break;
-      case "sensor/temperature":
-        setTemperature(value);
+          setRotorSpeed(value);
+          break;
+      case "sensor/en_prod":
+        setEnergyProduction(value);
         break;
     }
   };
@@ -85,10 +82,9 @@ function App() {
         <div>
           <Overview
             realTimeData={{
-              consumption,
+              windSpeed,
+              rotorSpeed,
               energyProduction,
-              humidity,
-              temperature,
             }}
             dailyData={metrics.daily}
             weeklyData={metrics.weekly}
@@ -128,7 +124,7 @@ function App() {
           <h1>Velocidade do Vento</h1>
           <div style={{width: 500, height: 500}}>
           <CircularProgressbar
-            value={metrics.realTime.windSpeed} maxValue={30} text={`${metrics.realTime.windSpeed}m/s`}
+            value={windSpeed} maxValue={30} text={`${windSpeed.toFixed(1)}m/s`}
             styles={buildStyles({
               pathTransitionDuration: 0.5,
               pathColor: colorWindSpeedIndicator,
