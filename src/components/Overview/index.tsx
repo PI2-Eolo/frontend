@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import MetricInfo from "../MetricInfo";
 import Selector from "../Selector";
 import MetricInfoModel from "../../models/MetricInfoModel";
-import mqttService from "../../services/mqttService";
-import mqtt from "mqtt";
 import "./index.css";
 
 interface OverviewProps {
@@ -21,29 +19,10 @@ const Overview = ({
 }: OverviewProps) => {
   const [metricInfo, setMetricInfo] = useState(new MetricInfoModel());
   const [period, setPeriod] = useState("realtime");
-  const [mqttClient, setMqttClient] = useState<mqtt.MqttClient | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    setMqttClient(mqttService.getClient());
-    mqttService.subscribe(mqttClient);
-    mqttService.onMessage(mqttClient, handleMessage);
-    return () => {
-      if (mqttClient) {
-        mqttService.unsubscribe(mqttClient);
-        mqttClient.end();
-      }
-    };
-  }, []);
 
   useEffect(() => {
     onChangeSelector(period);
   }, [realTimeData, dailyData, weeklyData, monthlyData]);
-
-  const handleMessage = (msg: string) => {
-    console.log(msg);
-  };
 
   const onChangeSelector = (period: string) => {
     switch (period) {
