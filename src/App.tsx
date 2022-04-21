@@ -30,7 +30,7 @@ function App() {
   const { message: temperature } = useSubscription(["sensor/temperature"]);
 
   return (
-    <Connector brokerUrl="ws://mqtt:9001">
+    <Connector brokerUrl="ws://localhost:9001">
       <div className="App">
         <Header />
         <div className="App-upperContainer ">
