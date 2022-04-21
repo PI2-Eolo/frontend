@@ -5,9 +5,7 @@ import Overview from "./components/Overview";
 import { useEffect, useState } from "react";
 import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
-import { Connector } from "mqtt-react-hooks";
-import { useMqttState } from "mqtt-react-hooks";
-import { useSubscription } from "mqtt-react-hooks";
+import mqttService from "./services/mqttService";
 
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),
@@ -17,59 +15,76 @@ const emptyMetrics: Metrics = {
 };
 
 function App() {
+  const [consumption, setConsumption] = useState(0);
+  const [energyProduction, setEnergyProduction] = useState(0);
+  const [humidity, setHumidity] = useState(0);
+  const [temperature, setTemperature] = useState(0);
+
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
-  const { connectionStatus } = useMqttState();
 
   useEffect(() => {
     getMetrics().then(setMetrics);
   }, []);
 
-  const { message: consumption } = useSubscription(["sensor/consumption"]);
-  const { message: en_prod } = useSubscription(["sensor/en_prod"]);
-  const { message: humidity } = useSubscription(["sensor/humidity"]);
-  const { message: temperature } = useSubscription(["sensor/temperature"]);
+  const onMessage = (topic: string, message: any) => {
+    const value = +message.toString();
+    switch (topic) {
+      case "sensor/consumption":
+        setConsumption(value);
+        break;
+      case "sensor/en_prod":
+        setEnergyProduction(value);
+        break;
+      case "sensor/humidity":
+        setHumidity(value);
+        break;
+      case "sensor/temperature":
+        setTemperature(value);
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const client = mqttService.getClient(onMessage);
+    return () => {
+      client.end();
+    };
+  }, []);
 
   return (
-    <Connector brokerUrl="ws://localhost:9001">
-      <div className="App">
-        <Header />
-        <div className="App-upperContainer ">
-          <h1>{`Status: ${connectionStatus}`}</h1>
-          <p>{` consumption: ${consumption}`}</p>
-          <p>{` en_prod: ${en_prod}`}</p>
-          <p>{` humidity: ${humidity}`}</p>
-          <p>{` temperature: ${temperature}`}</p>
-          <div>
-            <Overview
-              realTimeData={{
-                consumption: +(consumption?.message || "0"),
-                energyProduction: +(en_prod?.message?.toString() || "0"),
-                humidity: +(humidity?.message || "0"),
-                temperature: +(temperature?.message || "0"),
-              }}
-              dailyData={metrics.daily}
-              weeklyData={metrics.weekly}
-              monthlyData={metrics.monthly}
-            />
-            {
-              // Earnings goes here
-            }
-          </div>
+    <div className="App">
+      <Header />
+      <div className="App-upperContainer ">
+        <div>
+          <Overview
+            realTimeData={{
+              consumption,
+              energyProduction,
+              humidity,
+              temperature,
+            }}
+            dailyData={metrics.daily}
+            weeklyData={metrics.weekly}
+            monthlyData={metrics.monthly}
+          />
+          {
+            // Earnings goes here
+          }
+        </div>
 
-          <div>
-            <PieChart
-              label="Consumption details"
-              data={[
-                { label: "Kitchen", value: 241, color: "#7459D9" },
-                { label: "Living room", value: 132, color: "#B9ABEB" },
-                { label: "Other", value: 32, color: "#E3DEF7" },
-              ]}
-              unit="kW/h"
-            />
-          </div>
+        <div>
+          <PieChart
+            label="Consumption details"
+            data={[
+              { label: "Kitchen", value: 241, color: "#7459D9" },
+              { label: "Living room", value: 132, color: "#B9ABEB" },
+              { label: "Other", value: 32, color: "#E3DEF7" },
+            ]}
+            unit="kW/h"
+          />
         </div>
       </div>
-    </Connector>
+    </div>
   );
 }
 

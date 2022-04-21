@@ -1,19 +1,19 @@
 version: "3.7"
 services:
-  #   frontend:
-  #     container_name: EOLO_frontend
-  #     build:
-  #       context: .
-  #       dockerfile: Dockerfile
-  #     volumes:
-  #       - '.:/frontend'
-  #       - '/frontend/node_modules'
-  #     ports:
-  #       - '3000:3000'
-  #     depends_on:
-  #       - mqtt
-  #     networks:
-  #       - test-network
+  frontend:
+    container_name: EOLO_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/frontend"
+      - "/frontend/node_modules"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mqtt
+    networks:
+      - test-network
   mqtt:
     image: toke/mosquitto
     container_name: mqtt
