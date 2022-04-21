@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+
 import MetricInfo from "../MetricInfo";
 import Selector from "../Selector";
 import MetricInfoModel from "../../models/MetricInfoModel";
+
 import "./index.css";
 
 interface OverviewProps {
@@ -28,7 +30,6 @@ const Overview = ({
     switch (period) {
       case "realtime":
         setMetricInfo(realTimeData);
-
         setPeriod("realtime");
         break;
       case "daily":
@@ -49,25 +50,25 @@ const Overview = ({
   return (
     <div className="Overview">
       <div className="Overview-header">
-        <h1>Overview</h1>
+        <h1>Dados Coletados</h1>
         <div>
           <Selector
             defaultValue="realtime"
             options={[
               {
-                label: "Realtime",
+                label: "Agora",
                 value: "realtime",
               },
               {
-                label: "Daily",
+                label: "Dia",
                 value: "daily",
               },
               {
-                label: "Weekly",
+                label: "Semana",
                 value: "weekly",
               },
               {
-                label: "Monthly",
+                label: "Mês",
                 value: "monthly",
               },
             ]}
@@ -77,23 +78,22 @@ const Overview = ({
       </div>
 
       <div className="Overview-infos">
+        <div className="Overview-pad12" />
         <MetricInfo
-          label="Consumption"
-          value={metricInfo.consumption}
-          unit="kW/h"
+          label="Velocidade do Vento"
+          value={metricInfo.windSpeed}
+          unit="m/s"
         />
         <div className="Overview-pad2" />
         <MetricInfo
-          label="Energy production"
+          label="Velocidade do Rotor"
+          value={metricInfo.rotorSpeed}
+          unit="m/s"
+        />
+        <div className="Overview-pad2" />
+        <MetricInfo
+          label="Potência Elétrica"
           value={metricInfo.energyProduction}
-          unit="kw/h"
-        />
-        <div className="Overview-pad2" />
-        <MetricInfo label="Humidity" value={metricInfo.humidity} unit="kw/h" />
-        <div className="Overview-pad2" />
-        <MetricInfo
-          label="Temperature"
-          value={metricInfo.temperature}
           unit="kw/h"
         />
         <div className="Overview-pad12" />

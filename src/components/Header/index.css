@@ -3,9 +3,8 @@
     background-color: #fff;
     display: flex;
     flex-direction: row;
-    height: 4em;
+    height: 5em;
     align-items: center;
-    padding: 1em;
     border-bottom: 2px solid #EEECFA;
 }
 
@@ -20,6 +19,7 @@ img {
     display: flex;
     height: 3em;
     padding-right: 1em;
+    padding-left: 1em;
 }
 
 @font-face {
