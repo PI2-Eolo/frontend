@@ -1,0 +1,48 @@
+version: "3.7"
+services:
+  frontend:
+    container_name: EOLO_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/frontend"
+      - "/frontend/node_modules"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mqtt
+    networks:
+      - test-network
+  mqtt:
+    image: toke/mosquitto
+    container_name: mqtt
+    volumes:
+      - ./generator/mosquitto/config:/mqtt/config:ro
+      - ./generator/mosquitto/data:/mqtt/data
+      - ./generator/mosquitto/log:/mqtt/logs
+    expose:
+      - 9001
+      - 1880
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - test-network
+    restart: unless-stopped
+  mock_generator:
+    container_name: EOLO_mock
+    build:
+      context: ./generator
+      dockerfile: Dockerfile
+    volumes:
+      - "./:/generator/"
+    ports:
+      - "1884:1884"
+    depends_on:
+      - mqtt
+    networks:
+      - test-network
+networks:
+  test-network:
+    driver: bridge
