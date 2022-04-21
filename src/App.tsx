@@ -7,6 +7,7 @@ import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
 import { Connector } from "mqtt-react-hooks";
 import { useMqttState } from "mqtt-react-hooks";
+import { useSubscription } from "mqtt-react-hooks";
 
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),
@@ -23,15 +24,29 @@ function App() {
     getMetrics().then(setMetrics);
   }, []);
 
+  const { message: consumption } = useSubscription(["sensor/consumption"]);
+  const { message: en_prod } = useSubscription(["sensor/en_prod"]);
+  const { message: humidity } = useSubscription(["sensor/humidity"]);
+  const { message: temperature } = useSubscription(["sensor/temperature"]);
+
   return (
-    <Connector brokerUrl="mqtt://mqtt:9001">
+    <Connector brokerUrl="ws://mqtt:9001">
       <div className="App">
         <Header />
         <div className="App-upperContainer ">
           <h1>{`Status: ${connectionStatus}`}</h1>
+          <p>{` consumption: ${consumption}`}</p>
+          <p>{` en_prod: ${en_prod}`}</p>
+          <p>{` humidity: ${humidity}`}</p>
+          <p>{` temperature: ${temperature}`}</p>
           <div>
             <Overview
-              realTimeData={metrics.realTime}
+              realTimeData={{
+                consumption: +(consumption?.message || "0"),
+                energyProduction: +(en_prod?.message?.toString() || "0"),
+                humidity: +(humidity?.message || "0"),
+                temperature: +(temperature?.message || "0"),
+              }}
               dailyData={metrics.daily}
               weeklyData={metrics.weekly}
               monthlyData={metrics.monthly}
