@@ -6,8 +6,14 @@ import { useEffect, useState } from "react";
 import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlugCircleMinus, faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+
+import axios from 'axios';
 
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),
@@ -19,6 +25,7 @@ const emptyMetrics: Metrics = {
 function App() {
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
   const [colorWindSpeedIndicator, setColorWindSpeedIndicator] = useState("");
+  const [rotorBlocked, setRotorBlocked] = useState(false); 
 
   useEffect(() => {
     getMetrics().then(setMetrics);
@@ -52,9 +59,25 @@ function App() {
             weeklyData={metrics.weekly}
             monthlyData={metrics.monthly}
           />
-          
-          <h1>Outras Opções</h1>
-          
+          <div className="Other-Options">
+            <div className="Other-Options-Header">
+              <h1>Outras Opções</h1>
+            </div>
+
+            <div className="Overview-infos">
+              <div className="Overview-pad12" />
+              <button className="button" onClick={() => window.open("http://localhost:8000/backup")}>
+                <FontAwesomeIcon icon={faBoxArchive} style={{width: 125, height: 125}}/>
+                <div className="buttonLabel">Backup</div>
+              </button>
+              <div className="Overview-pad2" />
+              <button className={rotorBlocked ? "buttonNoBrake" : "buttonBrake"} onClick={() => setRotorBlocked(!rotorBlocked)}>
+                <FontAwesomeIcon icon={faPlugCircleBolt} style={{width: 125, height: 125}}/>
+                <div className="buttonLabel">{rotorBlocked ? "Liberar Rotor" : "Travar Rotor"}</div>
+              </button>
+              <div className="Overview-pad12" />
+            </div>
+          </div>
         </div>
 
         <div className="wind-speed">
@@ -86,3 +109,5 @@ function App() {
 }
 
 export default App;
+
+// <a href="https://www.flaticon.com/br/icones-gratis/gerador" title="gerador ícones">Gerador ícones criados por surang - Flaticon</a>
