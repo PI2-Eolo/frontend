@@ -30,7 +30,7 @@ function App() {
 
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
   const [colorWindSpeedIndicator, setColorWindSpeedIndicator] = useState("");
-  const [rotorBlocked, setRotorBlocked] = useState(false); 
+  const [rotorBlocked, setRotorBlocked] = useState(false);
 
   useEffect(() => {
     getMetrics().then(setMetrics);
@@ -87,10 +87,10 @@ function App() {
     const value = +message.toString();
     switch (topic) {
       case "sensor/consumption":
-        setWindSpeed(value);
         break;
       case "sensor/humidity":
           setRotorSpeed(value);
+          setWindSpeed(value);
           break;
       case "sensor/en_prod":
         setEnergyProduction(value);
