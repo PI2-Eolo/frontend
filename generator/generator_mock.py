@@ -22,8 +22,8 @@ topic_values = { # Initial values
 }
 
 def generate_numbers(min_value, max_value, last_value):
-    l = 0 if last_value == min_value else -0.1
-    r = 0 if last_value == max_value else 0.1
+    l = 0 if last_value <= min_value else -0.1
+    r = 0 if last_value >= max_value else 0.1
     x = random.uniform(l,r)
     return last_value + x
 
