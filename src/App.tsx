@@ -37,6 +37,36 @@ function App() {
   }, []);
 
   useEffect(() => {
+    axios.post('http://localhost:8000/wind/', {
+      wind_speed: (windSpeed*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [windSpeed]);
+
+  useEffect(() => {
+    axios.post('http://localhost:8000/rotor/', {
+      rotor_speed: (rotorSpeed*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [rotorSpeed]);
+
+  useEffect(() => {
+    axios.post('http://localhost:8000/eletric-power/', {
+      energy_production: (energyProduction*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [energyProduction]);
+
+  useEffect(() => {
     console.log(windSpeed)
     if (windSpeed) {
       if (windSpeed === 0){
