@@ -1,10 +1,89 @@
 .App {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .App-upperContainer {
     display: flex;
     justify-content: space-between;
-    margin-right: 1em;
+    width: 100%;
+}
+
+.wind-speed {
+    padding-right: 6em;
+}
+
+.Other-Options {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2em;
+}
+
+.Other-Options-Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.button {
+    display: block;
+    width: 250px;
+    height: 250px;
+    color: #033d68;
+}
+
+button:hover {
+    background-color: #033d68;
+    color: #ffffff;
+    transition-duration: 0.2s;
+}
+
+.buttonBrake {
+    display: block;
+    width: 250px;
+    height: 250px;
+    color: red;
+}
+
+.buttonBrake:hover {
+    background-color: red;
+    color: #ffffff;
+    transition-duration: 0.2s;
+}
+
+.buttonNoBrake {
+    display: block;
+    width: 250px;
+    height: 250px;
+    color: green;
+}
+
+.buttonNoBrake:hover {
+    background-color: green;
+    color: #ffffff;
+    transition-duration: 0.2s;
+}
+
+.buttonLabel {
+    padding-top: 1em;
+    font-size: large;
+    font-weight: bold;
+}
+
+.Overview-infos {
+    display: flex;
+    flex-direction: row;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.Overview-pad2 {
+    padding-left: 2em;
+}
+
+.Overview-pad12 {
+    padding-left: 6em;
 }

@@ -7,6 +7,15 @@ import { getMetrics, Metrics } from "./services/metricService";
 import MetricInfoModel from "./models/MetricInfoModel";
 import mqttService from "./services/mqttService";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlugCircleMinus, faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+import axios from 'axios';
+
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),
   daily: new MetricInfoModel(),
@@ -15,31 +24,76 @@ const emptyMetrics: Metrics = {
 };
 
 function App() {
-  const [consumption, setConsumption] = useState(0);
+  const [windSpeed, setWindSpeed] = useState(0);
   const [energyProduction, setEnergyProduction] = useState(0);
-  const [humidity, setHumidity] = useState(0);
-  const [temperature, setTemperature] = useState(0);
+  const [rotorSpeed, setRotorSpeed] = useState(0);
 
   const [metrics, setMetrics] = useState<Metrics>(emptyMetrics);
+  const [colorWindSpeedIndicator, setColorWindSpeedIndicator] = useState("");
+  const [rotorBlocked, setRotorBlocked] = useState(false);
 
   useEffect(() => {
     getMetrics().then(setMetrics);
   }, []);
 
+  useEffect(() => {
+    axios.post('http://localhost:8000/wind/', {
+      wind_speed: (windSpeed*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [windSpeed]);
+
+  useEffect(() => {
+    axios.post('http://localhost:8000/rotor/', {
+      rotor_speed: (rotorSpeed*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [rotorSpeed]);
+
+  useEffect(() => {
+    axios.post('http://localhost:8000/eletric-power/', {
+      energy_production: (energyProduction*100).toFixed(0),
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, [energyProduction]);
+
+  useEffect(() => {
+    console.log(windSpeed)
+    if (windSpeed) {
+      if (windSpeed === 0){
+        setColorWindSpeedIndicator("#d6d6d6");
+      } else if (windSpeed > 0  && windSpeed < 4){
+        setColorWindSpeedIndicator("#8c9eff");
+      } else if (windSpeed > 4  && windSpeed < 10){
+        setColorWindSpeedIndicator("#64dd17");
+      } else if (windSpeed > 10  && windSpeed < 20){
+        setColorWindSpeedIndicator("#ffff00");
+      } else {
+        setColorWindSpeedIndicator("#dd2c00");
+      }
+    }
+  }, [windSpeed]);
+
   const onMessage = (topic: string, message: any) => {
     const value = +message.toString();
     switch (topic) {
       case "sensor/consumption":
-        setConsumption(value);
-        break;
-      case "sensor/en_prod":
-        setEnergyProduction(value);
         break;
       case "sensor/humidity":
-        setHumidity(value);
-        break;
-      case "sensor/temperature":
-        setTemperature(value);
+          setRotorSpeed(value);
+          setWindSpeed(value);
+          break;
+      case "sensor/en_prod":
+        setEnergyProduction(value);
         break;
     }
   };
@@ -58,30 +112,57 @@ function App() {
         <div>
           <Overview
             realTimeData={{
-              consumption,
+              windSpeed,
+              rotorSpeed,
               energyProduction,
-              humidity,
-              temperature,
             }}
             dailyData={metrics.daily}
             weeklyData={metrics.weekly}
             monthlyData={metrics.monthly}
           />
-          {
-            // Earnings goes here
-          }
+          <div className="Other-Options">
+            <div className="Other-Options-Header">
+              <h1>Outras Opções</h1>
+            </div>
+
+            <div className="Overview-infos">
+              <div className="Overview-pad12" />
+              <button className="button" onClick={() => window.open("http://localhost:8000/backup")}>
+                <FontAwesomeIcon icon={faBoxArchive} style={{width: 125, height: 125}}/>
+                <div className="buttonLabel">Backup</div>
+              </button>
+              <div className="Overview-pad2" />
+              <button className={rotorBlocked ? "buttonNoBrake" : "buttonBrake"} onClick={() => setRotorBlocked(!rotorBlocked)}>
+                <FontAwesomeIcon icon={faPlugCircleBolt} style={{width: 125, height: 125}}/>
+                <div className="buttonLabel">{rotorBlocked ? "Liberar Rotor" : "Travar Rotor"}</div>
+              </button>
+              <div className="Overview-pad12" />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <PieChart
-            label="Consumption details"
+        <div className="wind-speed">
+          {/* <PieChart
+            label="Velocidade do Vento"
             data={[
               { label: "Kitchen", value: 241, color: "#7459D9" },
               { label: "Living room", value: 132, color: "#B9ABEB" },
               { label: "Other", value: 32, color: "#E3DEF7" },
             ]}
             unit="kW/h"
+          /> */}
+          <h1>Velocidade do Vento</h1>
+          <div style={{width: 500, height: 500}}>
+          <CircularProgressbar
+            value={windSpeed} maxValue={30} text={`${windSpeed.toFixed(1)}m/s`}
+            styles={buildStyles({
+              pathTransitionDuration: 0.5,
+              pathColor: colorWindSpeedIndicator,
+              textColor: colorWindSpeedIndicator,
+              trailColor: '#d6d6d6'
+            })}
           />
+          </div>
         </div>
       </div>
     </div>
@@ -89,3 +170,5 @@ function App() {
 }
 
 export default App;
+
+// <a href="https://www.flaticon.com/br/icones-gratis/gerador" title="gerador ícones">Gerador ícones criados por surang - Flaticon</a>
