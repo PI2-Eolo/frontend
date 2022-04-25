@@ -202,11 +202,26 @@ function App() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="main-charts-container">
         <LineChart
           label={"Velocidade do vento"}
           value={windSpeed}
           unit={"m/s"}
+          lineColor="#8c9eff"
+        />
+
+        <LineChart
+          label={"Velocidade do rotor"}
+          value={rotorSpeed}
+          unit={"m/s"}
+          lineColor="#64dd17"
+        />
+
+        <LineChart
+          label={"Energia produzida"}
+          value={energyProduction}
+          unit={"kW/h"}
+          lineColor="#D1D100"
         />
       </div>
     </div>
