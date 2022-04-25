@@ -8,13 +8,17 @@ import MetricInfoModel from "./models/MetricInfoModel";
 import mqttService from "./services/mqttService";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlugCircleMinus, faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlugCircleMinus,
+  faPlugCircleBolt,
+} from "@fortawesome/free-solid-svg-icons";
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
 
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-import axios from 'axios';
+import axios from "axios";
+import LineChart from "./components/LineChart";
 
 const emptyMetrics: Metrics = {
   realTime: new MetricInfoModel(),
@@ -37,45 +41,54 @@ function App() {
   }, []);
 
   useEffect(() => {
-    axios.post('http://localhost:8000/wind/', {
-      wind_speed: (windSpeed*100).toFixed(0),
-    }).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post("http://localhost:8000/wind/", {
+        wind_speed: (windSpeed * 100).toFixed(0),
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [windSpeed]);
 
   useEffect(() => {
-    axios.post('http://localhost:8000/rotor/', {
-      rotor_speed: (rotorSpeed*100).toFixed(0),
-    }).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post("http://localhost:8000/rotor/", {
+        rotor_speed: (rotorSpeed * 100).toFixed(0),
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [rotorSpeed]);
 
   useEffect(() => {
-    axios.post('http://localhost:8000/eletric-power/', {
-      energy_production: (energyProduction*100).toFixed(0),
-    }).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post("http://localhost:8000/eletric-power/", {
+        energy_production: (energyProduction * 100).toFixed(0),
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [energyProduction]);
 
   useEffect(() => {
-    console.log(windSpeed)
+    console.log(windSpeed);
     if (windSpeed) {
-      if (windSpeed === 0){
+      if (windSpeed === 0) {
         setColorWindSpeedIndicator("#d6d6d6");
-      } else if (windSpeed > 0  && windSpeed < 4){
+      } else if (windSpeed > 0 && windSpeed < 4) {
         setColorWindSpeedIndicator("#8c9eff");
-      } else if (windSpeed > 4  && windSpeed < 10){
+      } else if (windSpeed > 4 && windSpeed < 10) {
         setColorWindSpeedIndicator("#64dd17");
-      } else if (windSpeed > 10  && windSpeed < 20){
+      } else if (windSpeed > 10 && windSpeed < 20) {
         setColorWindSpeedIndicator("#ffff00");
       } else {
         setColorWindSpeedIndicator("#dd2c00");
@@ -89,9 +102,9 @@ function App() {
       case "sensor/consumption":
         break;
       case "sensor/humidity":
-          setRotorSpeed(value);
-          setWindSpeed(value);
-          break;
+        setRotorSpeed(value);
+        setWindSpeed(value);
+        break;
       case "sensor/en_prod":
         setEnergyProduction(value);
         break;
@@ -104,6 +117,14 @@ function App() {
       client.end();
     };
   }, []);
+
+  const data = [
+    { name: "Page A", uv: 400, pv: 2400, amt: 2400 },
+    { name: "Page B", uv: 300, pv: 4567, amt: 2400 },
+    { name: "Page C", uv: 200, pv: 1398, amt: 2400 },
+    { name: "Page D", uv: 278, pv: 9800, amt: 2400 },
+    { name: "Page E", uv: 189, pv: 4800, amt: 2400 },
+  ];
 
   return (
     <div className="App">
@@ -127,14 +148,28 @@ function App() {
 
             <div className="Overview-infos">
               <div className="Overview-pad12" />
-              <button className="button" onClick={() => window.open("http://localhost:8000/backup")}>
-                <FontAwesomeIcon icon={faBoxArchive} style={{width: 125, height: 125}}/>
+              <button
+                className="button"
+                onClick={() => window.open("http://localhost:8000/backup")}
+              >
+                <FontAwesomeIcon
+                  icon={faBoxArchive}
+                  style={{ width: 125, height: 125 }}
+                />
                 <div className="buttonLabel">Backup</div>
               </button>
               <div className="Overview-pad2" />
-              <button className={rotorBlocked ? "buttonNoBrake" : "buttonBrake"} onClick={() => setRotorBlocked(!rotorBlocked)}>
-                <FontAwesomeIcon icon={faPlugCircleBolt} style={{width: 125, height: 125}}/>
-                <div className="buttonLabel">{rotorBlocked ? "Liberar Rotor" : "Travar Rotor"}</div>
+              <button
+                className={rotorBlocked ? "buttonNoBrake" : "buttonBrake"}
+                onClick={() => setRotorBlocked(!rotorBlocked)}
+              >
+                <FontAwesomeIcon
+                  icon={faPlugCircleBolt}
+                  style={{ width: 125, height: 125 }}
+                />
+                <div className="buttonLabel">
+                  {rotorBlocked ? "Liberar Rotor" : "Travar Rotor"}
+                </div>
               </button>
               <div className="Overview-pad12" />
             </div>
@@ -152,18 +187,27 @@ function App() {
             unit="kW/h"
           /> */}
           <h1>Velocidade do Vento</h1>
-          <div style={{width: 500, height: 500}}>
-          <CircularProgressbar
-            value={windSpeed} maxValue={30} text={`${windSpeed.toFixed(1)}m/s`}
-            styles={buildStyles({
-              pathTransitionDuration: 0.5,
-              pathColor: colorWindSpeedIndicator,
-              textColor: colorWindSpeedIndicator,
-              trailColor: '#d6d6d6'
-            })}
-          />
+          <div style={{ width: 500, height: 500 }}>
+            <CircularProgressbar
+              value={windSpeed}
+              maxValue={30}
+              text={`${windSpeed.toFixed(1)}m/s`}
+              styles={buildStyles({
+                pathTransitionDuration: 0.5,
+                pathColor: colorWindSpeedIndicator,
+                textColor: colorWindSpeedIndicator,
+                trailColor: "#d6d6d6",
+              })}
+            />
           </div>
         </div>
+      </div>
+      <div>
+        <LineChart
+          label={"Velocidade do vento"}
+          value={windSpeed}
+          unit={"m/s"}
+        />
       </div>
     </div>
   );
