@@ -1,0 +1,9 @@
+.line-chart-container {
+    display: flex;
+}
+
+.line-chart-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
